@@ -17,6 +17,8 @@ public class BinarySearch {
      */
     public static int binarySearchBasic(int[] a, int target) {
         int i = 0, j = a.length - 1; // 创建两个指针并且初始化值
+        // 如果数据在最右边 那么只执行了 第一个if 最多执行R次 而如果是在最左边 那么 要执行完第一个if
+        // 判断第一个不是 然后第二个if 所以是 2* R次
         while (i <= j) {
             int m = (i + j) >>> 2;
             if (a[m] < target) {
@@ -26,7 +28,7 @@ public class BinarySearch {
             } else {
                 return m;
             }
-        }
+        } 
         return -1;
     }
 
