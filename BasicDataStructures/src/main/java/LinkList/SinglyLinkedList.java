@@ -15,12 +15,14 @@ public class SinglyLinkedList implements Iterable<Integer>{
 
     // 从头部添加数据
     public void addFirst(int value) {
-        this.head = new Node(value, this.head);
+        // this.head = new Node(value, this.head);
+        // 有了哨兵后 加入链表的头部可以直接调用insert 然后给索引0的地方插入就好了
+        insert(0, value);
     }
 
     // 遍历链表1
     public void loop1(Consumer<Integer> consumer) {
-        Node p = head;
+        Node p = head.next;
         while (p != null) {
             consumer.accept(p.value);
             p = p.next; // 让他指向下一个Node 其实就是让他赋值下一个Node的类
@@ -29,7 +31,7 @@ public class SinglyLinkedList implements Iterable<Integer>{
 
     // 遍历链表2
     public void loop2(Consumer<Integer> consumer) {
-        for (Node p = head; p != null; p = p.next) {
+        for (Node p = head.next; p != null; p = p.next) {
             consumer.accept(p.value);
         }
     }
@@ -91,7 +93,9 @@ public class SinglyLinkedList implements Iterable<Integer>{
     }
 
     private Node findNode(int index) {
-        int i = 0;
+        // 因为有了哨兵 所以从-1开始 -1代表哨兵的位置
+        int i = -1;
+        // 然后遍历要从head的下一个开始也就是哨兵的位置
         for (Node p = this.head; p != null; p = p.next, i ++) {
             if (index == i) {
                 return p;
@@ -115,10 +119,11 @@ public class SinglyLinkedList implements Iterable<Integer>{
     // 插入
     public void insert(int index, int value) {
         // 第一个元素 直接添加
-        if (index == 0) {
-            addFirst(value);
-            return;
-        }
+        // 有了哨兵 不需要调用addFirst
+        // if (index == 0) {
+        //     addFirst(value);
+        //     return;
+        // }
         Node prev = findNode(index - 1);
         if (prev == null) {
             // 找不到
@@ -129,19 +134,22 @@ public class SinglyLinkedList implements Iterable<Integer>{
 
     // 删除第一个
     public void removeFirst() {
-        if (head == null) {
-            throw new IllegalArgumentException("链表为空");
-        }
-        this.head = head.next;
+        // if (head == null) {
+        //     throw new IllegalArgumentException("链表为空");
+        // }
+        // this.head = head.next;
+        // 有哨兵了 直接调用remove删除索引0也就是第一个位置就好了
+        remove(0);
     }
 
     // 删除指定链表位置元素
     public void remove(int index) {
-        if (index == 0) {
-            // 这里对第一个元素的特殊处理
-            removeFirst();
-            return;
-        }
+        // 有了哨兵之后 可以不用对索引0做特殊处理了
+        // if (index == 0) {
+        //     // 这里对第一个元素的特殊处理
+        //     removeFirst();
+        //     return;
+        // }
 
         // 获得要删除节点的上一个节点
         Node prev = findNode(index - 1);

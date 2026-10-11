@@ -89,4 +89,12 @@ class SinglyLinkedListTest {
         singlyLinkedList.addLast(4);
         return singlyLinkedList;
     }
+
+    @Test
+    @DisplayName("测试 insert")
+    public void test6() {
+        SinglyLinkedList linkedList = getLinkedList();
+        linkedList.insert(0, 5);
+        assertIterableEquals(List.of(5, 1, 2, 3, 4), linkedList);
+    }
 }
